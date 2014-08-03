@@ -32,6 +32,8 @@ public class ArrayMod {
     modInclude();
     modIsEmpty();
     modLast();
+    modReject();
+    modSample();
     modSelect();
   }
 
@@ -192,6 +194,29 @@ public class ArrayMod {
       return this[this.length - 1];
     };
     Array.prototype["setPropertyIsEnumerable"]('last', false);
+  }
+
+  private static function modReject():void {
+    Array.prototype["reject"] = function (block:Function):Array {
+      var result:Array = [];
+      for each(var element:Object in this)
+        if(!block(element)) result.push(block(element));
+
+      return result;
+    };
+    Array.prototype["setPropertyIsEnumerable"]('reject', false);
+  }
+
+  private static function modSample():void {
+    Array.prototype["sample"] = function (quantity:int=1):Array {
+      var result:Array = [];
+      if(quantity < 1) throw new Error("Sample quantity must be greater than 0.");
+      for(var i:int = 0; i < quantity; i++)
+        result.push(this[Math.round(Math.random() * quantity)]);
+
+      return result;
+    };
+    Array.prototype["setPropertyIsEnumerable"]('sample', false);
   }
 
   private static function modSelect():void {
